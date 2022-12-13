@@ -1,18 +1,14 @@
 from fake_useragent import UserAgent
 
-import os
 import re
 import time
 from io import BytesIO
 
-import django
 import requests
 from bs4 import BeautifulSoup
 from django.core.files import File
 from django.utils.text import slugify
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'auto_info.settings')
-django.setup()
 
 from cars.models import *
 
@@ -414,6 +410,3 @@ def brands_parse():
 
         print('Brand', brand_obj, created)
         models_parse(brand_obj, models_path)
-
-
-brands_parse()
