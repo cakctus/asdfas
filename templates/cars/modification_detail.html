@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+    <div class="container modification">
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'cars:brand_list' %}">{% translate 'Brands' %}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'cars:model_list' post.generation.model.brand.id %}">{{ post.generation.model.brand.name }}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'cars:generation_list'  post.generation.model.brand.id post.generation.model.id %}">{{ post.generation.model.name }}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'cars:modification_list'  post.generation.model.brand.id post.generation.model.id post.generation.id %}">{{ post.generation.name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ post.name }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-12 mt-3 mb-3">
+                <h1>{% translate page.section %}</h1>
+            </div>
+            {% if post.image %}
+                <div class="col-md-6 mb-3">
+                    <div class="block p-4 d-flex">
+                        <img class="image w-100 m-0" src="{{ post.image.url }}" alt="{{ post.name }}">
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-6 mb-3 tab-content" id="dataItemsContent">
+                <ul class="nav nav-tabs mb-3" id="dataItems" role="tablist">
+                    {% for field, items in page.object.items %}
+                        <li class="nav-item m-1" role="presentation">
+                            <button class="nav-link{% if field == 'Modification' %} active{% endif %}" id="{{ field|slugify }}-tab"
+                                    data-bs-toggle="tab" data-bs-target="#{{ field|slugify }}"
+                                    type="button" role="tab" aria-controls="{{ field|slugify }}"
+                                    aria-selected="false">
+                                {{ field }}
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% for field, items in page.object.items %}
+                    <div class="block p-4 tab-pane fade{% if field == 'Modification' %} show active{% endif %}" id="{{ field|slugify }}" role="tabpanel" aria-labelledby="{{ field|slugify }}-tab">
+                        <h2 class="b-3">{{ field }}</h2>
+                        <ul class="list-group list-group-flush">
+                            {% for item in items %}
+                                {% for name,value in item.items %}
+                                    <li class="list-group-item">{{ name }}: {{ value }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

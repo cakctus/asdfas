@@ -1,0 +1,99 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-4 mb-3">
+                <h1>{% translate 'General' %}</h1>
+            </div>
+        </div>
+        <div class="row modifications mb-5">
+            <div class="col-md-12 mt-3 mb-3">
+                <h2 class="text-secondary">{% translate 'Cars' %}<a href="{% url 'cars:brand_list' %}" class="text-sm-end fs-5 ms-3 text-primary">{% translate 'More' %}</a></h2>
+            </div>
+            {% for car in cars %}
+                <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+                    <a class="item" href="{% url 'cars:modification_detail' car.generation.model.brand.id  car.generation.model.id car.generation.id car.id %}">
+                        <div class="content p-3 pt-2 pb-2 d-flex">
+                            {% if car.image %}
+                                <img class="image m-auto ms-0 p-2" src="{{ car.image.url }}" alt="{{ car.name }}">
+                            {% else %}
+                                <img class="image m-auto ms-0 p-2" src="{% static 'front/img/noimage.jpg' %}" alt="{{ car.name }}">
+                            {% endif %}
+                            <h6 class="title m-auto me-0 text-sm-end">{{ car.name }}</h6>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            {% if cars.has_other_pages %}
+                <div class="col-md-12 mt-4 mb-4">
+                    <ul class="pagination justify-content-between">
+                        {% if cars.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ cars.previous_page_number }}">{% translate 'Previous' %}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">{% translate 'Previous' %}</a>
+                            </li>
+                        {% endif %}
+                        {% if cars.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ cars.next_page_number }}">{% translate 'Next' %}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">{% translate 'Next' %}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row modifications mb-5">
+            <div class="col-md-12 mt-3 mb-3">
+                <h2 class="text-secondary">{% translate 'Motorcycles' %}<a href="{% url 'moto:brand_list' %}" class="text-sm-end fs-5 ms-3 text-primary">{% translate 'More' %}</a></h2>
+            </div>
+            {% for moto in motos %}
+                <div class="col-sm-12 col-md-6 col-xl-4 mb-3">
+                    <a class="item" href="{% url 'moto:modification_detail' moto.model.brand.id  moto.model.id moto.id %}">
+                        <div class="content p-3 pt-2 pb-2 d-flex">
+                            {% if moto.image %}
+                                <img class="image m-auto ms-0 p-2" src="{{ moto.image.url }}" alt="{{ moto.name }}">
+                            {% else %}
+                                <img class="image m-auto ms-0 p-2" src="{% static 'front/img/noimage.jpg' %}" alt="{{ moto.name }}">
+                            {% endif %}
+                            <h6 class="title m-auto me-0 text-sm-end">{{ moto.name }}</h6>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            {% if motos.has_other_pages %}
+                <div class="col-md-12 mb-4">
+                    <ul class="pagination justify-content-between">
+                        {% if motos.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ motos.previous_page_number }}">{% translate 'Previous' %}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">{% translate 'Previous' %}</a>
+                            </li>
+                        {% endif %}
+                        {% if motos.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ motos.next_page_number }}">{% translate 'Next' %}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">{% translate 'Next' %}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock content %}
